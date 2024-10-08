@@ -19,7 +19,7 @@ pipeline {
         stage ("Check out from Git Repo"){
             steps{
                 echo "======Code Check out from the Main Branch ======"
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubcredhack', url: 'https://github.com/rohitmhcltech/sample_app_python.git']])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubcredhack', url: 'https://github.com/rohitmhcltech/sample_python_app.git']])
             }
         }  
             // run sonarqube test
