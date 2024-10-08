@@ -1,21 +1,26 @@
-FROM python:3.9
+FROM python:2.7
 
-RUN useradd -m  azureuser
+# Creating Application Source Code Directory
+RUN mkdir -p /usr/src/app
 
-WORKDIR /app
+# Setting Home Directory for containers
+WORKDIR /usr/src/app
 
-# Copy the requirements file to the container
-COPY . .
-# Install the dependencies
-RUN chown -R azureuser:azureuser /app
-
-USER azureuser
-
+# Installing python dependencies
+COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copying src code to Container
+COPY . /usr/src/app
 
-# Expose the port that Uvicorn will run on
+# Application Environment variables
+#ENV APP_ENV development
+
+# Exposing Ports
 EXPOSE 8000
 
-# Command to run the application
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0"]
+# Setting Persistent data
+VOLUME ["/app-data"]
+
+# Running Python Application
+CMD gunicorn -b :8000 -c gunicorn.conf.py main:app
