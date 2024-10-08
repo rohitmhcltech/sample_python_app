@@ -1,0 +1,27 @@
+# Use the official Python image from Docker Hub
+FROM python:3.9-slim
+
+RUN useradd -m  azureuser
+# Set the working directory inside the container
+WORKDIR /app
+ 
+# Copy the requirements file to the container
+COPY db/ docs/ models/ utils/ requirements.txt /app/
+COPY db/ /app/db/
+COPY models/ /app/models/
+COPY utils/ /app/utils/
+COPY docs/ /app/docs/
+COPY main.py requirements.txt  /app/ 
+# Install the dependencies
+RUN chown -R azureuser:azureuser /app
+
+USER azureuser
+
+RUN pip install --no-cache-dir -r requirements.txt
+ 
+ 
+# Expose the port that Uvicorn will run on
+EXPOSE 8000
+ 
+# Command to run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
