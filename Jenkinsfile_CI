@@ -10,13 +10,13 @@ pipeline {
 // Replace with your Git repository URL
     }
     stages{    
-        stage ("Clean up Workspace"){
+        stage ("Clean up local Workspace"){
             steps{
                 echo "====== Cleaning up the Workspace ======"
                 cleanWs()
             }
         }
-        stage ("Check out from Git Repo"){
+        stage ("Check out from Git Repository"){
             steps{
                 echo "======Code Check out from the Main Branch ======"
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubcredhack', url: 'https://github.com/rohitmhcltech/sample_python_app.git']])
@@ -47,7 +47,7 @@ pipeline {
                 }
             }
         }*/
-        stage('Build Docker Image') {
+        stage('Build Docker Sample  Image') {
             steps {
                 script {
                      docker.build("${env.DOCKER_IMAGE}")
@@ -78,7 +78,7 @@ http://${registryUrl}"
 	        } 
 	    }	
 	}*/
-	stage('Login to ACR'){
+	stage('Login to Azure Container Registry'){
 	   steps{
 		script{
 			// log in to Azur Container Registry
